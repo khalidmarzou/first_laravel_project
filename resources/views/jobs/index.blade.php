@@ -18,14 +18,14 @@
                 <a href="/jobs/{{ $job['id'] }}" class="block max-w-sm p-6 {{ $colors[$index % count($colors)] }} border border-gray-200 rounded-lg shadow hover:bg-gray-100">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">{{ $job['title'] }}</h5>
                     <h6 class="mb-2 text-xl tracking-tight text-red-700">Employer :{{ $job->employer->name }}</h6>
-                    <p class="font-light text-gray-700">Pays -> {{ $job['salary'] }}$</p>
+                    <p class="font-light text-gray-700">Pays -> {{ $job['salary'] }} $</p>
                 </a>
             </article>
         @endforeach
 
     </div>
 
-    <div>
+    <div class="mt-6">
         {{ $jobs->links()  }}
     </div>
 
