@@ -1,93 +1,45 @@
 <?php
 
+use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 use \App\Models\Job;
 
-Route::get('/', function () {
+// Route to the homepage, rendering the 'home' view
+Route::view('/', 'home');
 
-    return view('home');
+// Route to the contact page, rendering the 'contact' view
+Route::view('/contact', 'contact');
+
+// Uncomment the following block to manually define individual routes for the JobController
+// Jobs CRUD (Create, Read, Update, Delete):
+/*
+Route::controller(JobController::class)->group(function () {
+    // Displays the list of jobs (index method)
+    Route::get('/jobs', 'index');
+
+    // Shows the form to create a new job (create method)
+    Route::get('/jobs/create', 'create');
+
+    // Displays a specific job's details (show method)
+    Route::get('/jobs/{job}', 'show');
+
+    // Stores a new job in the database (store method)
+    Route::post('/jobs', 'store');
+
+    // Shows the form to edit an existing job (edit method)
+    Route::get('/jobs/{job}/edit', 'edit');
+
+    // Updates an existing job's information (update method)
+    Route::patch('/jobs/{job}', 'update');
+
+    // Deletes a specific job from the database (destroy method)
+    Route::delete('/jobs/{job}', 'destroy');
 });
+*/
 
-// index
-Route::get('/jobs', function () {
-    $jobs = Job::with('employer')->latest()->simplePaginate(4);
-
-    return view('jobs.index', [
-        'jobs' => $jobs
-    ]);
-});
-
-// create
-Route::get('/jobs/create', function () {
-
-    return view('jobs.create');
-});
-
-// show
-Route::get('/jobs/{id}', function ($id) {
-    $job = Job::find($id);
-
-    return view('jobs.show', ['job' => $job]);
-});
-
-// store
-Route::post('/jobs', function() {
-    request()->validate([
-        'title' => ['min:3'],
-        'salary' => ['numeric']
-    ]);
-
-    Job::create([
-        'title' => request('title'),
-        'salary' => request('salary'),
-        'employer_id' => 1
-    ]);
-
-
-    return redirect('/jobs');
-});
-
-// edit
-Route::get('/jobs/{id}/edit ', function ($id) {
-    $job = Job::find($id);
-
-    return view('jobs.edit', ['job' => $job]);
-});
-
-// update
-Route::patch('/jobs/{id}', function ($id) {
-    // validation
-    request()->validate([
-        'title' => ['min:3'],
-        'salary' => ['numeric']
-    ]);
-
-    // authorization
-
-    // update the job
-    $job = Job::findOrFail($id);
-
-    $job->title = request('title');
-    $job->salary = request('salary');
-    $job->save();
-
-//    $job->update([
-//        'title' => request('title'),
-//        'salary' => request('salary')
-//    ]);
-
-    // redirect to the job page
-    return redirect('/jobs/' . $job->id);
-});
-
-// destroy
-Route::delete('/jobs/{id}', function ($id) {
-    Job::findOrFail($id)->delete();
-
-    return redirect('/jobs');
-});
-
-Route::get('/contact', function () {
-
-    return view('contact');
-});
+// Job CRUD with resource methods:
+// Automatically generates routes for all standard CRUD operations (index, create, store, show, edit, update, destroy)
+Route::resource('jobs', JobController::class /*, [
+    'except' => [] // Generates all routes except the ones specified here
+    // Use 'only' to generate only specific routes instead of all
+]*/);

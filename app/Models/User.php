@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable; // Enables factory methods and notification features for the User model
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +19,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
-        'password',
+        'password', // Attributes that can be mass-assigned
     ];
 
     /**
@@ -29,8 +28,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', // Password should not be visible in arrays or JSON
+        'remember_token', // Token used for "remember me" functionality
     ];
 
     /**
@@ -41,16 +40,18 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'email_verified_at' => 'datetime', // Casts the email verification timestamp to a datetime
+            'password' => 'hashed', // Indicates that the password should be hashed
         ];
     }
 
+    // Define the relationship between a user and their comments
     public function comments() {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class); // A user can have multiple comments
     }
 
+    // Define the relationship between a user and their posts
     public function posts() {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class); // A user can have multiple posts
     }
 }

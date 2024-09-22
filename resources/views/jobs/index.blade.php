@@ -1,10 +1,11 @@
 <x-layout>
     <x-slot:heading>
-        Jobs Page
+        Jobs Page <!-- Sets the heading for the layout -->
     </x-slot:heading>
 
     <div class="flex gap-4 flex-wrap w-full">
         @php
+            // Array of color classes to use for job cards
             $colors = [
                 'bg-red-200', 'bg-green-200', 'bg-blue-200', 'bg-yellow-200', 'bg-purple-200',
                 'bg-pink-200', 'bg-indigo-200', 'bg-teal-200', 'bg-orange-200', 'bg-cyan-200',
@@ -13,11 +14,12 @@
             ];
         @endphp
 
+            <!-- Loop through each job and display it in a card format -->
         @foreach ($jobs as $index => $job)
-            <article class="w-1/5">
+            <article class="w-1/5"> <!-- Each job card takes 1/5 of the width -->
                 <a href="/jobs/{{ $job['id'] }}" class="block max-w-sm p-6 {{ $colors[$index % count($colors)] }} border border-gray-200 rounded-lg shadow hover:bg-gray-100">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">{{ $job['title'] }}</h5>
-                    <h6 class="mb-2 text-xl tracking-tight text-red-700">Employer :{{ $job->employer->name }}</h6>
+                    <h6 class="mb-2 text-xl tracking-tight text-red-700">Employer: {{ $job->employer->name }}</h6>
                     <p class="font-light text-gray-700">Pays -> {{ $job['salary'] }} $</p>
                 </a>
             </article>
@@ -25,8 +27,9 @@
 
     </div>
 
+    <!-- Pagination links for job listings -->
     <div class="mt-6">
-        {{ $jobs->links()  }}
+        {{ $jobs->links() }} <!-- Generates pagination links -->
     </div>
 
 </x-layout>
