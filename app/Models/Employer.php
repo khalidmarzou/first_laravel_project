@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employer extends Model
 {
-    use HasFactory; // Enables factory methods for creating model instances
+    use HasFactory;
 
-    // Define the relationship between an employer and their jobs
-    public function jobs() {
-        return $this->hasMany(Job::class); // An employer can have multiple jobs
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
     }
 }
